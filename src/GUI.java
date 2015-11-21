@@ -67,7 +67,44 @@ public class GUI extends JFrame {
 	
 	public void setTextCenter(String text){
 		text = text.replaceAll("\n", "<br>");
-		label.setText("<html><div style='text-align: center;'>"+text+"</html>");
+		StringBuilder sb = new StringBuilder();
+		//replace the *word* with italic words
+		boolean firstItalic = true;
+		boolean firstBold = true;
+		for(int i=0; i<text.length(); i++){
+			
+			if (text.charAt(i)=='*') {
+				if (i!=text.length()-1 && text.charAt(i+1)=='*'){
+					sb.append(firstBold?"<b>":"</b>");
+					i++;
+					firstBold=!firstBold;
+				}
+				else{
+					sb.append(firstItalic?"<i>":"</i>");
+					firstItalic=!firstItalic;
+				}
+			}
+			else if (text.charAt(i)=='_') {
+				if (i!=text.length()-1 && text.charAt(i+1)=='_'){
+					sb.append(firstBold?"<b>":"</b>");
+					i++;
+					firstBold=!firstBold;
+				}
+				else{
+					sb.append(firstItalic?"<i>":"</i>");
+					firstItalic=!firstItalic;
+				}
+			}
+			else if (text.charAt(i)=='\\'){
+				if (i!=text.length()-1) sb.append(text.charAt(++i));
+				else sb.append('\\');
+			}
+			else {
+				
+				sb.append(text.charAt(i));
+			}
+		}
+		label.setText("<html><div style='text-align: center;'>"+sb.toString()+"</html>");
 	}
 	
 	public String getCurrentText(){
@@ -83,7 +120,7 @@ public class GUI extends JFrame {
 	}
 	
 	public void setTextSize(int textSize){
-		label.setFont(new Font("Arial", Font.BOLD, textSize));
+		label.setFont(new Font("Arial", Font.PLAIN, textSize));
 	}
 	
 	public void startTimer(){
@@ -104,7 +141,7 @@ public class GUI extends JFrame {
 		    			hsb[0] = (float) Math.random();
 		    		} while(Math.abs(hsb[0]-oldhsb)<0.3);
 		    	}
-		    	else hsb[0]+= speed ? 0.1:0.01;
+		    	else hsb[0]+= speed ? 0.05:0.01;
 		    	label.setBackground(new Color(Color.HSBtoRGB(hsb[0],1, 1)));
 		    	label.setForeground(new Color(Color.HSBtoRGB(hsb[0]+0.5f,1,1)));;
 		        label.repaint();
