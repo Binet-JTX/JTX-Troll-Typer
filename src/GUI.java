@@ -1,7 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +17,10 @@ public class GUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Timer timer;
+	private boolean speed;
+	private boolean epileptic;
+
 	
 	private JLabel label;
 	
@@ -22,6 +29,8 @@ public class GUI extends JFrame {
 		buildMainFrame();
 		this.setContentPane(buildMainContentPane());
 		this.setVisible(true);
+		this.speed = false;
+		this.epileptic = false;
 		
 	}
 	
@@ -75,5 +84,53 @@ public class GUI extends JFrame {
 	
 	public void setTextSize(int textSize){
 		label.setFont(new Font("Arial", Font.BOLD, textSize));
+	}
+	
+	public void startTimer(){
+		
+		timer = new Timer(50, new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent ae) {
+		    	
+		        Color background = label.getBackground();
+		    	int red =background.getRed();
+		    	int green = background.getGreen();
+		    	int blue = background.getBlue();
+		    	float[] hsb = new float[3];
+		    	Color.RGBtoHSB(red, green, blue, hsb);
+		    	if (epileptic){
+		    		float oldhsb = hsb[0];
+		    		do {
+		    			hsb[0] = (float) Math.random();
+		    		} while(Math.abs(hsb[0]-oldhsb)<0.3);
+		    	}
+		    	else hsb[0]+= speed ? 0.1:0.01;
+		    	label.setBackground(new Color(Color.HSBtoRGB(hsb[0],1, 1)));
+		    	label.setForeground(new Color(Color.HSBtoRGB(hsb[0]+0.5f,1,1)));;
+		        label.repaint();
+		    }
+		});
+		
+		timer.start();
+	}
+	
+	private void stopTimer(){
+		timer.stop();
+	}
+	
+	/**
+	 * Sets the animation to quick (true) or slow (false)
+	 * @param b
+	 */
+	public void setSpeed(boolean b){
+		speed = b;
+	}
+	
+	/**
+	 * Sets the animation of the background to be random
+	 * @param b
+	 */
+	public void setEpileptic(boolean b){
+		epileptic = b;
 	}
 }

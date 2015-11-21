@@ -357,6 +357,7 @@ public class ControlGUI extends JFrame {
 			return;
 		} 
 		System.out.println("Erreur : l'ecran "+screen+" n'a pas ete trouve");
+		
 	}
 	
 	private static void quitFullscreen(){
