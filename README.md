@@ -1,10 +1,10 @@
 #JTX Troll Typer
 
-Ceci est la version 1.2 du JTX Troll Typer, destiné à écrire du texte sur un écran secondaire, de façon élégante. La régie peut alors communiquer avec .K avant le début de la proj. C'est aussi un moyen de passer le temps lorsque l'amphi "Chasse au trésor" de l'incorpo s'avère un peu trop long.
+Ceci est la version 1.3 du JTX Troll Typer, destiné à écrire du texte sur un écran secondaire, de façon élégante. La régie peut alors communiquer avec .K avant le début de la proj. C'est aussi un moyen de passer le temps lorsque l'amphi "Chasse au trésor" de l'inkhôrpo s'avère un peu trop long.
 
 ###Fonctionnement
 
-Il suffit d'ouvrir ```JTX_Troll_Typer_1.2.jar``` ou  ```JTX_Troll_Typer_1.2_sans_protection.jar```.
+Il suffit d'ouvrir ```JTX_Troll_Typer_1.3.jar``` ou  ```JTX_Troll_Typer_1.3_sans_protection.jar```.
 
 Une fois ouvert, les réglages permettent de changer la taille et la couleur du texte, ainsi que la couleur du fond.
 On peut choisir de désactiver les mises à jour automatiques des modifications, ce qui veut dire qu'il faudra manuellement actualiser l'affichage (en cliquant sur le bouton en bas à gauche) pour refléter les changements. Cela permet de préparer un texte sans que le public en constate l'écriture.
@@ -21,4 +21,15 @@ Cette identification est indépendante du choix de l'écran principal dans les p
 
 Il nécessite d'avoir Java (JRE >= 1.7 a priori) d'installé sur l'ordinateur pour être utilisé.
 
-*version du 17/11/2015 par Côme Weber.* 
+###Changelog
+
+**version 1.3 :**
+
+* prise en compte du Markdown dans la fenêtre (gras et italique avec * ou _)
+* ajout du *Rainbow Mode*
+
+**Version 1.2 :**
+
+* Choix de l'identifiant du second écran
+
+*version du 22/11/2015 par Côme Weber.* 
