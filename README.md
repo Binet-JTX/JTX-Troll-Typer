@@ -11,6 +11,7 @@ On peut choisir de désactiver les mises à jour automatiques des modifications,
 
 La version "sans protection" est sujette à des plantages car elle désactive les protections qui empêchent de demander d'afficher le texte sur un écran inexistant. Néanmoins, quand deux écrans sont reliés à l'ordinateur, il ne devrait pas y avoir de différence entre les deux versions.
 
+Le Rainbow Mode permet de faire clignoter l'écran pour être particulièrement insupportable.
 
 ###Remarque importante
 
