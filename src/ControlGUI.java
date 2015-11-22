@@ -18,10 +18,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -46,6 +48,10 @@ public class ControlGUI extends JFrame {
 	private Color textColor = Color.white;
 	private int textSize = 30;
 	
+	static final int SPEED_MIN = 1;
+	static final int SPEED_MAX = 80;
+	static final int SPEED_INIT = 10;
+	
 	public ControlGUI(GUI destinationGUI) {
 		super();
 		this.destinationGUI = destinationGUI;
@@ -58,7 +64,7 @@ public class ControlGUI extends JFrame {
 	
 	private void buildMainFrame(){
 		setTitle("JTX Troll Typer");
-		setSize(600,350);
+		setSize(600,400);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,13 +73,13 @@ public class ControlGUI extends JFrame {
 	
 	private JPanel buildMainContentPane(){
 		JPanel backPanel = new JPanel();
-		backPanel.setSize(600,350);
+		backPanel.setSize(600,400);
 		backPanel.setLayout(new BoxLayout(backPanel, BoxLayout.Y_AXIS));
 		backPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
+		//mainPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
 		final JTextArea textArea = new JTextArea("Type your troll text here");
 		textArea.addKeyListener(new KeyListener() {
 			
@@ -151,7 +157,7 @@ public class ControlGUI extends JFrame {
 		settingsPanel.add(autoUpdateTextSizeCB);
 		
 		//Chekbox - fullscreen on second Screen
-		JCheckBox fullscreenCB = new JCheckBox("Activer le plein écran sur le deuxième �cran");
+		JCheckBox fullscreenCB = new JCheckBox("Activer le plein écran sur le deuxième écran");
 		fullscreenCB.setSelected(fullscreen);  
 		fullscreenCB.addActionListener(new ActionListener() {
 			
@@ -268,8 +274,71 @@ public class ControlGUI extends JFrame {
 		settingsPanel.add(textSizePanel);
 		mainPanel.add(settingsPanel);
 		backPanel.add(mainPanel);
+		
+		//RAINBOW PANEL
+		JPanel rainbowPanel = new JPanel();
+		rainbowPanel.setMinimumSize(new Dimension(50,40));
+		rainbowPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,10));
+		final JButton rainbowButton = new JButton("Activer le Rainbow Mode");
+		rainbowButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//rainbow mode is already activated :
+				//stopping it...
+				if (destinationGUI.isRainbowEnabled()){
+					destinationGUI.stopTimer();
+					destinationGUI.setTextColor(textColor);
+					destinationGUI.setBackgroundColor(backgroundColor);
+					rainbowButton.setText("Activer le Rainbow Mode");
+				}
+				//Rainbow Mode is stopped :
+				//starting it...
+				else {
+					destinationGUI.startTimer();
+					rainbowButton.setText("Désactiver le Rainbow Mode");
+				}
+		
+				
+			}
+		});
+		
+		JLabel epilepticLabel = new JLabel("Mode épileptique");
+		final JCheckBox epilepticCheckBox = new JCheckBox();
+		epilepticCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				destinationGUI.setEpileptic(epilepticCheckBox.isSelected());
+			}
+		});
+		JLabel speedLabel = new JLabel("Vitesse");
+		final JSlider speedSlider = new JSlider(SwingConstants.HORIZONTAL, SPEED_MIN, SPEED_MAX, SPEED_INIT);
+		speedSlider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(!speedSlider.getValueIsAdjusting()){
+					destinationGUI.setSpeed(speedSlider.getValue());
+				}
+				
+			}
+		});
+		destinationGUI.setSpeed(SPEED_INIT);
+		speedSlider.setPreferredSize(new Dimension(100,30));
+		
+		rainbowPanel.add(rainbowButton);
+		rainbowPanel.add(speedLabel);
+		rainbowPanel.add(speedSlider);
+		rainbowPanel.add(epilepticLabel);
+		rainbowPanel.add(epilepticCheckBox);
+		backPanel.add(rainbowPanel);
+		
+		
+		//BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER,30,10));
+		bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		JButton updateButton = new JButton("Mettre à jour les modifications");
 		updateButton.addActionListener(new ActionListener() {
 			
@@ -301,7 +370,7 @@ public class ControlGUI extends JFrame {
 					if (wasFullscreen) {
 						quitFullscreen();
 						destinationGUI = new GUI();
-						destinationGUI.setTextCenter(textArea.getText().replaceAll("\n", "<br>"));
+						destinationGUI.setTextCenter(textArea.getText());
 						destinationGUI.setTextColor(textColor);
 						destinationGUI.setBackgroundColor(backgroundColor);
 						destinationGUI.setTextSize(textSize);

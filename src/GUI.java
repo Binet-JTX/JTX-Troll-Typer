@@ -18,8 +18,9 @@ public class GUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
-	private boolean speed;
+	private int speedFactor;
 	private boolean epileptic;
+	
 
 	
 	private JLabel label;
@@ -29,7 +30,7 @@ public class GUI extends JFrame {
 		buildMainFrame();
 		this.setContentPane(buildMainContentPane());
 		this.setVisible(true);
-		this.speed = false;
+		this.speedFactor = 15;
 		this.epileptic = false;
 		
 	}
@@ -141,7 +142,7 @@ public class GUI extends JFrame {
 		    			hsb[0] = (float) Math.random();
 		    		} while(Math.abs(hsb[0]-oldhsb)<0.3);
 		    	}
-		    	else hsb[0]+= speed ? 0.05:0.01;
+		    	else hsb[0]+=speedFactor*0.001;
 		    	label.setBackground(new Color(Color.HSBtoRGB(hsb[0],1, 1)));
 		    	label.setForeground(new Color(Color.HSBtoRGB(hsb[0]+0.5f,1,1)));;
 		        label.repaint();
@@ -151,7 +152,7 @@ public class GUI extends JFrame {
 		timer.start();
 	}
 	
-	private void stopTimer(){
+	public void stopTimer(){
 		timer.stop();
 	}
 	
@@ -159,8 +160,8 @@ public class GUI extends JFrame {
 	 * Sets the animation to quick (true) or slow (false)
 	 * @param b
 	 */
-	public void setSpeed(boolean b){
-		speed = b;
+	public void setSpeed(int factor){
+		speedFactor = factor;
 	}
 	
 	/**
@@ -170,4 +171,6 @@ public class GUI extends JFrame {
 	public void setEpileptic(boolean b){
 		epileptic = b;
 	}
+	
+	public boolean isRainbowEnabled(){ return timer==null ? false : timer.isRunning();}
 }

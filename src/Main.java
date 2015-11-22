@@ -9,26 +9,6 @@ public class Main {
 		
 		GUI gui = new GUI();
 		ControlGUI control = new ControlGUI(gui);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		gui.startTimer();
-		try {
-			Thread.sleep(2500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		gui.setSpeed(true);
-		try {
-			Thread.sleep(3500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		gui.setEpileptic(true);
+		
 	}
 }
